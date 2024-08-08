@@ -1,0 +1,108 @@
+.contact-details{
+    display: flex;
+    list-style: none;
+    li{
+        padding: 15px 20px ;
+        border-left: 1px solid #E2E6E7;
+        font-weight: 500;
+        line-height: 20px;
+        a{
+            font-size: 13px;
+            color: #999;
+        }
+    }
+}
+
+.ux-search-submit.submit-button.secondary.button{
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    background-color: #ccc;
+    width: 42px !important;
+    height: 42px !important;
+    i{
+        color: #000;
+    }
+}
+
+#woocommerce-product-search-field-0{
+    height: 42px !important;
+    border: 1px solid #949494;
+    width: 532px;
+}
+
+.header-main{
+    margin-bottom: 20px;
+}
+
+.header-bottom-nav.nav-left{
+    li{
+        border-right: 2px solid rgb(119, 119, 119);
+        padding-right: 20px !important;
+        margin-right: 20px !important;
+        a{
+            font-weight: lighter !important;
+            font-size: 16px !important;
+            padding: 0px;
+        }
+    }
+    li:last-child{
+        border: none;
+    }
+}
+
+.header-bottom-nav.nav-right{
+    .header-wishlist-icon{
+        background-color: #6b9e69;
+        border-radius: 50px;
+        a{
+            color: #fff !important;
+            font-weight: lighter;
+            padding: 15px;
+            
+        }
+    }
+    .account-item{
+        background-color: #6b9e69;
+        border-radius: 50px;
+        a{
+            color: #fff !important;
+            font-weight: lighter;
+            padding: 15px;
+            
+        }
+    }
+}
+
+.header-text-banner{
+    padding: 21px 30px 20px;
+    background: rgba(38, 38, 40, 0.68);
+    line-height: 25px;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgb(107, 158, 105);
+    h2{
+        font-weight: 600 !important;
+        font-size: 33px !important;
+    }
+}
+
+.description-banner{
+    background: rgba(38, 38, 40, 0.55);
+    padding: 50px 15px 50px 15px;
+    p{
+        margin-top: 0px !important;
+        
+    }
+    a{
+        line-height: 25px;
+        letter-spacing: 1px;
+        font-weight: 600;
+        border-color: rgb(226, 230, 231);
+        border-style: solid;
+        border-width: 1px;
+        margin-left: 10px;
+        padding: 18px 24px 19px;
+        border-radius: 999px;
+        color: #6b9e69;
+        display: inline-block;
+    }
+}
