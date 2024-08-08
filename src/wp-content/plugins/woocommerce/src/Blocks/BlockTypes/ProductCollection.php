@@ -81,9 +81,6 @@ class ProductCollection extends AbstractBlock {
 		add_filter( 'render_block_core/query-pagination', array( $this, 'add_navigation_link_directives' ), 10, 3 );
 
 		add_filter( 'posts_clauses', array( $this, 'add_price_range_filter_posts_clauses' ), 10, 2 );
-
-		// Disable client-side-navigation if incompatible blocks are detected.
-		add_filter( 'render_block_data', array( $this, 'disable_enhanced_pagination' ), 10, 1 );
 	}
 
 	/**
@@ -98,9 +95,8 @@ class ProductCollection extends AbstractBlock {
 	 * @return string Updated block content with added interactivity attributes.
 	 */
 	public function enhance_product_collection_with_interactivity( $block_content, $block ) {
-		$is_product_collection_block    = $block['attrs']['query']['isProductCollectionBlock'] ?? false;
-		$is_enhanced_pagination_enabled = ! ( $block['attrs']['forcePageReload'] ?? false );
-		if ( $is_product_collection_block && $is_enhanced_pagination_enabled ) {
+		$is_product_collection_block = $block['attrs']['query']['isProductCollectionBlock'] ?? false;
+		if ( $is_product_collection_block ) {
 			// Enqueue the Interactivity API runtime.
 			wp_enqueue_script( 'wc-interactivity' );
 
@@ -112,7 +108,7 @@ class ProductCollection extends AbstractBlock {
 					'data-wc-navigation-id',
 					'wc-product-collection-' . $this->parsed_block['attrs']['queryId']
 				);
-				$p->set_attribute( 'data-wc-interactive', wp_json_encode( array( 'namespace' => 'woocommerce/product-collection' ), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) );
+				$p->set_attribute( 'data-wc-interactive', wp_json_encode( array( 'namespace' => 'woocommerce/product-collection' ) ) );
 				$p->set_attribute(
 					'data-wc-context',
 					wp_json_encode(
@@ -124,7 +120,7 @@ class ProductCollection extends AbstractBlock {
 							// This way we avoid prefetching when the page loads.
 							'isPrefetchNextOrPreviousLink' => false,
 						),
-						JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+						JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP
 					)
 				);
 				$block_content = $p->get_updated_html();
@@ -170,15 +166,13 @@ class ProductCollection extends AbstractBlock {
 	 * @param \WP_Block $instance      The block instance.
 	 */
 	public function add_navigation_link_directives( $block_content, $block, $instance ) {
-		$query_context                  = $instance->context['query'] ?? array();
-		$is_product_collection_block    = $query_context['isProductCollectionBlock'] ?? false;
-		$query_id                       = $instance->context['queryId'] ?? null;
-		$parsed_query_id                = $this->parsed_block['attrs']['queryId'] ?? null;
-		$is_enhanced_pagination_enabled = ! ( $this->parsed_block['attrs']['forcePageReload'] ?? false );
+		$query_context               = $instance->context['query'] ?? array();
+		$is_product_collection_block = $query_context['isProductCollectionBlock'] ?? false;
+		$query_id                    = $instance->context['queryId'] ?? null;
+		$parsed_query_id             = $this->parsed_block['attrs']['queryId'] ?? null;
 
-		// Only proceed if the block is a product collection block,
-		// enhaced pagination is enabled and query IDs match.
-		if ( $is_product_collection_block && $is_enhanced_pagination_enabled && $query_id === $parsed_query_id ) {
+		// Only proceed if the block is a product collection block and query IDs match.
+		if ( $is_product_collection_block && $query_id === $parsed_query_id ) {
 			$block_content = $this->process_pagination_links( $block_content );
 		}
 
@@ -226,7 +220,7 @@ class ProductCollection extends AbstractBlock {
 				'class_name' => $class_name,
 			)
 		) ) {
-			$processor->set_attribute( 'data-wc-interactive', wp_json_encode( array( 'namespace' => 'woocommerce/product-collection' ), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) );
+			$processor->set_attribute( 'data-wc-interactive', wp_json_encode( array( 'namespace' => 'woocommerce/product-collection' ) ) );
 			$processor->set_attribute( 'data-wc-on--click', 'actions.navigate' );
 			$processor->set_attribute( 'data-wc-key', $key_prefix . '--' . esc_attr( wp_rand() ) );
 
@@ -235,112 +229,6 @@ class ProductCollection extends AbstractBlock {
 				$processor->set_attribute( 'data-wc-on--mouseenter', 'actions.prefetchOnHover' );
 			}
 		}
-	}
-
-	/**
-	 * Verifies if the inner block is compatible with Interactivity API.
-	 *
-	 * @param string $block_name Name of the block to verify.
-	 * @return boolean
-	 */
-	private function is_block_compatible( $block_name ) {
-		// Check for explicitly unsupported blocks.
-		if ( 'core/post-content' === $block_name ||
-			'woocommerce/mini-cart' === $block_name ||
-			'woocommerce/featured-product' === $block_name ) {
-			return false;
-		}
-
-		// Check for supported prefixes.
-		if (
-			str_starts_with( $block_name, 'core/' ) ||
-			str_starts_with( $block_name, 'woocommerce/' )
-		) {
-			return true;
-		}
-
-		// Otherwise block is unsupported.
-		return false;
-	}
-
-	/**
-	 * Check inner blocks of Product Collection block if there's one
-	 * incompatible with Interactivity API and if so, disable client-side
-	 * naviagtion.
-	 *
-	 * @param array $parsed_block The block being rendered.
-	 * @return string Returns the parsed block, unmodified.
-	 */
-	public function disable_enhanced_pagination( $parsed_block ) {
-		static $enhanced_query_stack               = array();
-		static $dirty_enhanced_queries             = array();
-		static $render_product_collection_callback = null;
-
-		$block_name                  = $parsed_block['blockName'];
-		$is_product_collection_block = $parsed_block['attrs']['query']['isProductCollectionBlock'] ?? false;
-		$force_page_reload_global    =
-			$parsed_block['attrs']['forcePageReload'] ?? false &&
-			isset( $block['attrs']['queryId'] );
-
-		if (
-			$is_product_collection_block &&
-			'woocommerce/product-collection' === $block_name &&
-			! $force_page_reload_global
-		) {
-			$enhanced_query_stack[] = $parsed_block['attrs']['queryId'];
-
-			if ( ! isset( $render_product_collection_callback ) ) {
-				/**
-				 * Filter that disables the enhanced pagination feature during block
-				 * rendering when a plugin block has been found inside. It does so
-				 * by adding an attribute called `data-wp-navigation-disabled` which
-				 * is later handled by the front-end logic.
-				 *
-				 * @param string   $content  The block content.
-				 * @param array    $block    The full block, including name and attributes.
-				 * @return string Returns the modified output of the query block.
-				 */
-				$render_product_collection_callback = static function ( $content, $block ) use ( &$enhanced_query_stack, &$dirty_enhanced_queries, &$render_product_collection_callback ) {
-					$force_page_reload =
-						$parsed_block['attrs']['forcePageReload'] ?? false &&
-						isset( $block['attrs']['queryId'] );
-
-					if ( $force_page_reload ) {
-						return $content;
-					}
-
-					if ( isset( $dirty_enhanced_queries[ $block['attrs']['queryId'] ] ) ) {
-						$p = new \WP_HTML_Tag_Processor( $content );
-						if ( $p->next_tag() ) {
-							$p->set_attribute( 'data-wc-navigation-disabled', 'true' );
-						}
-						$content = $p->get_updated_html();
-						$dirty_enhanced_queries[ $block['attrs']['queryId'] ] = null;
-					}
-
-					array_pop( $enhanced_query_stack );
-
-					if ( empty( $enhanced_query_stack ) ) {
-						remove_filter( 'render_block_woocommerce/product-collection', $render_product_collection_callback );
-						$render_product_collection_callback = null;
-					}
-
-					return $content;
-				};
-
-				add_filter( 'render_block_woocommerce/product-collection', $render_product_collection_callback, 10, 2 );
-			}
-		} elseif (
-			! empty( $enhanced_query_stack ) &&
-			isset( $block_name ) &&
-			! $this->is_block_compatible( $block_name )
-		) {
-			foreach ( $enhanced_query_stack as $query_id ) {
-				$dirty_enhanced_queries[ $query_id ] = true;
-			}
-		}
-
-		return $parsed_block;
 	}
 
 	/**
@@ -355,7 +243,7 @@ class ProductCollection extends AbstractBlock {
 
 		// The `loop_shop_per_page` filter can be found in WC_Query::product_query().
 		// phpcs:ignore WooCommerce.Commenting.CommentHooks.MissingHookComment
-		$this->asset_data_registry->add( 'loopShopPerPage', apply_filters( 'loop_shop_per_page', wc_get_default_products_per_row() * wc_get_default_product_rows_per_page() ) );
+		$this->asset_data_registry->add( 'loopShopPerPage', apply_filters( 'loop_shop_per_page', wc_get_default_products_per_row() * wc_get_default_product_rows_per_page() ), true );
 	}
 
 	/**
@@ -369,14 +257,6 @@ class ProductCollection extends AbstractBlock {
 		$is_product_collection_block = $request->get_param( 'isProductCollectionBlock' );
 		if ( ! $is_product_collection_block ) {
 			return $args;
-		}
-
-		// Is this a preview mode request?
-		// If yes, short-circuit the query and return the preview query args.
-		$product_collection_query_context = $request->get_param( 'productCollectionQueryContext' );
-		$is_preview                       = $product_collection_query_context['previewState']['isPreview'] ?? false;
-		if ( 'true' === $is_preview ) {
-			return $this->get_preview_query_args( $args, $request );
 		}
 
 		$orderby             = $request->get_param( 'orderBy' );
@@ -424,12 +304,12 @@ class ProductCollection extends AbstractBlock {
 		}
 
 		$this->parsed_block = $parsed_block;
-		$this->asset_data_registry->add( 'hasFilterableProducts', true );
+		$this->asset_data_registry->add( 'hasFilterableProducts', true, true );
 		/**
 		 * It enables the page to refresh when a filter is applied, ensuring that the product collection block,
 		 * which is a server-side rendered (SSR) block, retrieves the products that match the filters.
 		 */
-		$this->asset_data_registry->add( 'isRenderingPhpTemplate', true );
+		$this->asset_data_registry->add( 'isRenderingPhpTemplate', true, true );
 
 		return $pre_render;
 	}
@@ -454,9 +334,7 @@ class ProductCollection extends AbstractBlock {
 		// phpcs:ignore WordPress.DB.SlowDBQuery
 		$block_context_query['tax_query'] = ! empty( $query['tax_query'] ) ? $query['tax_query'] : array();
 
-		$is_exclude_applied_filters = ! ( $block->context['query']['inherit'] ?? false );
-
-		return $this->get_final_frontend_query( $block_context_query, $page, $is_exclude_applied_filters );
+		return $this->get_final_frontend_query( $block_context_query, $page );
 	}
 
 
@@ -540,29 +418,6 @@ class ProductCollection extends AbstractBlock {
 		$result = $this->filter_query_to_only_include_ids( $merged_query, $handpicked_products );
 
 		return $result;
-	}
-
-	/**
-	 * Get query args for preview mode. These query args will be used with WP_Query to fetch the products.
-	 *
-	 * @param array           $args    Query args.
-	 * @param WP_REST_Request $request Request.
-	 */
-	private function get_preview_query_args( $args, $request ) {
-		$collection_query = array();
-
-		/**
-		 * In future, Here we will modify the preview query based on the collection name. For example:
-		 *
-		 * $product_collection_query_context = $request->get_param( 'productCollectionQueryContext' );
-		 * $collection_name                  = $product_collection_query_context['collection'] ?? '';
-		 * if ( 'woocommerce/product-collection/on-sale' === $collection_name ) {
-		 *      $collection_query = $this->get_on_sale_products_query( true );
-		 * }.
-		 */
-
-		$args = $this->merge_queries( $args, $collection_query );
-		return $args;
 	}
 
 	/**

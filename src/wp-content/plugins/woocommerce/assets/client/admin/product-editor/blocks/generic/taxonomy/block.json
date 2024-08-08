@@ -31,10 +31,6 @@
         "parentTaxonomyText": {
             "type": "string",
             "__experimentalRole": "content"
-        },
-        "placeholder": {
-            "type": "string",
-            "__experimentalRole": "content"
         }
     },
     "supports": {
@@ -47,5 +43,5 @@
         "__experimentalToolbar": false
     },
     "editorStyle": "file:./editor.css",
-    "usesContext": ["postType", "isInSelectedTab"]
+    "usesContext": ["postType"]
 }

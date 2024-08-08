@@ -29,12 +29,12 @@ class CheckboxList {
 		$checkbox_list_context = array( 'items' => $items );
 		$on_change             = $props['on_change'] ?? '';
 
-		$namespace = wp_json_encode( array( 'namespace' => 'woocommerce/interactivity-checkbox-list' ), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP );
+		$namespace = wp_json_encode( array( 'namespace' => 'woocommerce/interactivity-checkbox-list' ) );
 
 		ob_start();
 		?>
 		<div data-wc-interactive='<?php echo esc_attr( $namespace ); ?>'>
-			<div data-wc-context='<?php echo wp_json_encode( $checkbox_list_context, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ); ?>' >
+			<div data-wc-context='<?php echo esc_attr( wp_json_encode( $checkbox_list_context ) ); ?>' >
 			<div class="wc-block-stock-filter style-list">
 					<ul class="wc-block-components-checkbox-list">
 						<?php foreach ( $items as $item ) { ?>
@@ -43,13 +43,13 @@ class CheckboxList {
 							// translators: %s: checkbox label.
 							$i18n_label = sprintf( __( 'Checkbox: %s', 'woocommerce' ), $item['aria_label'] ?? '' );
 							?>
-							<li data-wc-key="<?php echo esc_attr( $item['id'] ); ?>">
+							<li>
 								<div class="wc-block-components-checkbox">
 									<label for="<?php echo esc_attr( $item['id'] ); ?>">
-										<input
-											id="<?php echo esc_attr( $item['id'] ); ?>"
-											class="wc-block-components-checkbox__input"
-											type="checkbox"
+										<input 
+											id="<?php echo esc_attr( $item['id'] ); ?>" 
+											class="wc-block-components-checkbox__input" 
+											type="checkbox" 
 											aria-invalid="false"
 											aria-label="<?php echo esc_attr( $i18n_label ); ?>"
 											data-wc-on--change--select-item="actions.selectCheckboxItem"

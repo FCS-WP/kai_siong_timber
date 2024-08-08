@@ -17,8 +17,8 @@
 		},
 		"blockGap": {
 			"type": "string",
-			"enum": [ "unit-20", "unit-30", "unit-40" ],
-			"default": "unit-20"
+			"enum": [ "unit-30", "unit-40" ],
+			"default": "unit-30"
 		}
 	},
 	"supports": {

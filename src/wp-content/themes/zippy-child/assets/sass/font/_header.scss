@@ -65,44 +65,33 @@
         background-color: #6b9e69;
         border-radius: 50px;
         a{
-            color: #fff !important;
+            
             font-weight: lighter;
             padding: 15px;
             
         }
+        .header-account-title{
+            color: #fff !important;
+        }
     }
 }
 
-.header-text-banner{
-    padding: 21px 30px 20px;
-    background: rgba(38, 38, 40, 0.68);
-    line-height: 25px;
-    letter-spacing: 1px;
-    border-bottom: 1px solid rgb(107, 158, 105);
-    h2{
-        font-weight: 600 !important;
-        font-size: 33px !important;
+.enquiry-button-nav {
+    .wp-block-button__link{
+        background: #6b9e69 !important;
+        text-decoration: none;
+        text-transform: uppercase;
     }
 }
 
-.description-banner{
-    background: rgba(38, 38, 40, 0.55);
-    padding: 50px 15px 50px 15px;
-    p{
-        margin-top: 0px !important;
-        
-    }
-    a{
-        line-height: 25px;
-        letter-spacing: 1px;
-        font-weight: 600;
-        border-color: rgb(226, 230, 231);
-        border-style: solid;
-        border-width: 1px;
-        margin-left: 10px;
-        padding: 18px 24px 19px;
-        border-radius: 999px;
+.header-cart-link {
+    margin-right: 10px;
+    i{
         color: #6b9e69;
-        display: inline-block;
+    }
+}
+.nav-dropdown{
+    a{
+        color: #000 !important;
     }
 }
