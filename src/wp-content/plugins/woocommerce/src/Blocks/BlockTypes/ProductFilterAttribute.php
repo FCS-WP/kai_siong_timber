@@ -107,8 +107,7 @@ final class ProductFilterAttribute extends AbstractBlock {
 									'value'         => $term,
 									'attributeSlug' => $product_attribute,
 									'queryType'     => get_query_var( "query_type_{$product_attribute}" ),
-								),
-								JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+								)
 							),
 						),
 					);
@@ -147,7 +146,7 @@ final class ProductFilterAttribute extends AbstractBlock {
 				'<div %s></div>',
 				get_block_wrapper_attributes(
 					array(
-						'data-wc-interactive' => wp_json_encode( array( 'namespace' => $this->get_full_block_name() ), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ),
+						'data-wc-interactive' => wp_json_encode( array( 'namespace' => $this->get_full_block_name() ) ),
 						'data-has-filter'     => 'no',
 					)
 				),
@@ -199,8 +198,8 @@ final class ProductFilterAttribute extends AbstractBlock {
 			'<div %1$s>%2$s%3$s</div>',
 			get_block_wrapper_attributes(
 				array(
-					'data-wc-context'     => wp_json_encode( $context, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ),
-					'data-wc-interactive' => wp_json_encode( array( 'namespace' => $this->get_full_block_name() ), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ),
+					'data-wc-context'     => wp_json_encode( $context ),
+					'data-wc-interactive' => wp_json_encode( array( 'namespace' => $this->get_full_block_name() ) ),
 					'data-has-filter'     => 'yes',
 				)
 			),
@@ -321,7 +320,7 @@ final class ProductFilterAttribute extends AbstractBlock {
 
 		$attribute_counts = array_reduce(
 			$attribute_counts,
-			function ( $acc, $count ) {
+			function( $acc, $count ) {
 				$acc[ $count['term'] ] = $count['count'];
 				return $acc;
 			},

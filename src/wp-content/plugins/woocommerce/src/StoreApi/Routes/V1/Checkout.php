@@ -9,7 +9,6 @@ use Automattic\WooCommerce\StoreApi\Utilities\DraftOrderTrait;
 use Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
 use Automattic\WooCommerce\Checkout\Helpers\ReserveStockException;
 use Automattic\WooCommerce\StoreApi\Utilities\CheckoutTrait;
-use Automattic\WooCommerce\Utilities\RestApiUtil;
 
 /**
  * Checkout class.
@@ -45,15 +44,6 @@ class Checkout extends AbstractCartRoute {
 	 * @return string
 	 */
 	public function get_path() {
-		return self::get_path_regex();
-	}
-
-	/**
-	 * Get the path of this rest route.
-	 *
-	 * @return string
-	 */
-	public static function get_path_regex() {
 		return '/checkout';
 	}
 
@@ -322,7 +312,7 @@ class Checkout extends AbstractCartRoute {
 	private function add_data_to_error_object( $error, $data, $http_status_code, bool $include_cart = false ) {
 		$data = array_merge( $data, [ 'status' => $http_status_code ] );
 		if ( $include_cart ) {
-			$data = array_merge( $data, [ 'cart' => wc_get_container()->get( RestApiUtil::class )->get_endpoint_data( '/wc/store/v1/cart' ) ] );
+			$data = array_merge( $data, [ 'cart' => wc()->api->get_endpoint_data( '/wc/store/v1/cart' ) ] );
 		}
 		$error->add_data( $data );
 		return $error;
@@ -429,7 +419,7 @@ class Checkout extends AbstractCartRoute {
 			if ( is_callable( [ $customer, $callback ] ) ) {
 				$customer->$callback( $value );
 			} elseif ( $this->additional_fields_controller->is_field( $key ) ) {
-				$this->additional_fields_controller->persist_field_for_customer( $key, $value, $customer, 'billing' );
+				$this->additional_fields_controller->persist_field_for_customer( "/billing/$key", $value, $customer );
 			}
 		}
 
@@ -441,7 +431,7 @@ class Checkout extends AbstractCartRoute {
 			if ( is_callable( [ $customer, $callback ] ) ) {
 				$customer->$callback( $value );
 			} elseif ( $this->additional_fields_controller->is_field( $key ) ) {
-				$this->additional_fields_controller->persist_field_for_customer( $key, $value, $customer, 'shipping' );
+				$this->additional_fields_controller->persist_field_for_customer( "/shipping/$key", $value, $customer );
 			}
 		}
 

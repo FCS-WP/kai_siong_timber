@@ -19,7 +19,7 @@
 			"type": "string"
 		}
 	},
-	"usesContext": [ "postType", "isInSelectedTab" ],
+	"usesContext": [ "postType" ],
 	"supports": {
 		"align": false,
 		"html": false,

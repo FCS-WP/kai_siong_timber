@@ -86,7 +86,10 @@ class RedirectionController {
 			}
 
 			if ( isset( $product_data_type ) ) {
-				return true;
+				if ( Features::is_enabled( 'product-virtual-downloadable' ) ) {
+					return true;
+				}
+				return ! $digital_product;
 			}
 		}
 
@@ -173,4 +176,5 @@ class RedirectionController {
 			exit();
 		}
 	}
+
 }

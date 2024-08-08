@@ -8,6 +8,7 @@
 	"keywords": [ "WooCommerce" ],
 	"textdomain": "woocommerce",
 	"usesContext": [
+		"id",
 		"queryId",
 		"query",
 		"queryContext",
@@ -15,8 +16,7 @@
 		"templateSlug",
 		"postId",
 		"queryContextIncludes",
-		"collection",
-		"__privateProductCollectionPreviewState"
+		"collection"
 	],
 	"supports": {
 		"inserter": false,
