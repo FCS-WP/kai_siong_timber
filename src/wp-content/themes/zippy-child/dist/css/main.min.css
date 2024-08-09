@@ -89,6 +89,73 @@
   color: #000 !important;
 }
 
+#ProductVariationTable td:first-child, #ProductVariationTable th:first-child {
+  padding-left: 1em;
+}
+
+.sub-menu.nav-dropdown {
+  width: 1170px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.sub-menu.nav-dropdown li {
+  border: none;
+  width: 25%;
+  margin-right: 0px !important;
+  padding-right: 0px !important;
+  margin-bottom: 15px;
+}
+
+.sub-menu.nav-dropdown li a:hover {
+  color: #6b9e69 !important;
+}
+
+.sub-menu.nav-dropdown li a {
+  border: 0;
+}
+
+.nav-dropdown-has-arrow.nav-dropdown-has-border li.has-dropdown:before {
+  top: 18px;
+}
+
+.nav-dropdown-has-arrow li.has-dropdown:after {
+  top: 23px;
+}
+
+.sub-menu.nav-dropdown {
+  top: 229px;
+}
+
+@media (max-width: 767px) {
+  .contact-details {
+    flex-wrap: wrap;
+    margin-top: 10px !important;
+  }
+  .contact-details li {
+    text-align: center !important;
+    width: 100%;
+    border: none;
+    padding: 0px;
+  }
+}
+.nav-top-not-logged-in span {
+  color: #fff;
+}
+
+.nav-dropdown-has-arrow.nav-dropdown-has-border li.has-dropdown:before {
+  top: 13px;
+}
+
+.nav-dropdown-has-arrow li.has-dropdown:after {
+  top: 19px;
+}
+
+.sub-menu.nav-dropdown {
+  top: 225px;
+}
+
 .header-text-banner {
   padding: 21px 30px 20px;
   background: rgba(38, 38, 40, 0.68);
@@ -238,7 +305,7 @@
   position: absolute;
   top: 0px;
   left: 15px;
-  z-index: 999;
+  z-index: 9;
 }
 
 .in-stock {

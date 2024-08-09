@@ -160,7 +160,7 @@
     position: absolute;
     top: 0px;
     left: 15px;
-    z-index: 999;
+    z-index: 9;
 }
 
 .in-stock {
@@ -286,4 +286,7 @@ td:first-child, th:first-child {
 #enquiry-button{
     color: #fff !important;
     padding: 5px 35px;
+}
+#ProductVariationTable td:first-child,#ProductVariationTable th:first-child{
+	padding-left: 1em;
 }
