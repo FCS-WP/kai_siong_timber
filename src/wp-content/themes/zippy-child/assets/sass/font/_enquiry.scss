@@ -1,0 +1,126 @@
+
+.enquiry-cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+.enquiry-cart-table th {
+    color: #FFFFFF;
+    background-color: #6b9e69;
+    padding: 0.8em !important;
+}
+
+.enquiry-cart-table .product-image {
+    width: 100px;
+}
+.enquiry-product-info {
+    margin: 0 30px;
+    width: 60%;
+}
+.enquiry-product{
+    display: flex;
+    align-items: center;
+}
+
+.my-enquiry-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.update-enquiry-cart-button button{
+    text-transform: capitalize;
+    border-radius: 5px;
+    color: #fff;
+}
+.enquiry-product-quantity button{
+    margin: 0 !important;
+}
+.enquiry-form button{
+    text-transform: capitalize;
+    border-radius: 5px;
+    color: #fff;
+}
+
+#ProductVariationTable h4 {
+    margin-bottom: 20px;
+}
+
+#ProductVariationTable table {
+    margin-bottom: 30px;
+}
+
+.product-variation-table {
+    text-align: center;
+    width: 100%;
+}
+
+.product-variation-table thead tr {
+    background: #6b9e69 !important;
+}
+
+#ProductVariationTable .product-variation-table thead tr th {
+    color: #FFF;
+    padding: 1rem;
+}
+#ProductVariationTable table td, #ProductVariationTable table th {
+    border: 1px solid #e2e6e7 !important;
+}
+.woocommerce table tr:nth-child(2n+1) {
+    background: #FFF;
+}
+table tr:nth-child(odd) {
+    background: #F5F5F5;
+}
+.product-variation-table td {
+    padding: 1rem;
+    border: 0;
+}
+td:first-child, th:first-child {
+    padding-left: 1rem; 
+}
+.product-variation-table .quantity {
+   margin-right: 0px;
+}
+.woocommerce .quantity .plus, .woocommerce .quantity .minus {
+    width: 40px !important;
+    border: 1px solid #E9E9E9;
+    background: transparent;
+    cursor: pointer;
+    padding: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+#enquiry-button{
+    color: #fff !important;
+    padding: 5px 35px;
+}
+#ProductVariationTable td:first-child,#ProductVariationTable th:first-child{
+	padding-left: 1em;
+}
+
+#enquiry-button, .add_to_enquiry_custom, .enquiry-button {
+    color: black;
+    background-color: #6b9e69;
+    padding: 10px 50px;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    -webkit-box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    cursor: pointer;
+}
+.enquiry-button-single{
+    color: #FFF;
+    display: inline-block !important;
+    background-color: #6b9e69;
+    border: none;
+    font-size: 16px;
+    height: 40.39px !important;
+    transform: translateY(-1px);
+    margin-left: 10px;
+    button{
+        margin-right: 0px;
+        margin-bottom: 0px;
+    }
+}
