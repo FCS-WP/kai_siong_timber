@@ -89,10 +89,6 @@
   color: #000 !important;
 }
 
-#ProductVariationTable td:first-child, #ProductVariationTable th:first-child {
-  padding-left: 1em;
-}
-
 .sub-menu.nav-dropdown {
   width: 1170px;
   display: flex;
@@ -343,39 +339,113 @@
   min-height: 311px;
 }
 
-#enquiry-button, .add_to_enquiry_custom, .enquiry-button {
-  color: black;
-  background-color: #6b9e69;
-  padding: 10px 50px;
-  border: none;
-  font-size: 16px;
-  border-radius: 5px;
-  -webkit-box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  cursor: pointer;
-}
-
-.enquiry-button-single {
-  color: #FFF;
-  display: inline-block !important;
-  background-color: #6b9e69;
-  border: none;
-  font-size: 16px;
-  height: 40.39px !important;
-  transform: translateY(-1px);
-  margin-left: 10px;
-}
-.enquiry-button-single button {
-  margin-right: 0px;
-  margin-bottom: 0px;
-}
-
 .add-to-cart-container form {
   display: inline-block;
 }
 
 .single_add_to_cart_button {
   margin-bottom: 0px !important;
+}
+
+.contact-details-box {
+  display: flex;
+  align-items: center;
+}
+.contact-details-box p {
+  margin-bottom: 0px;
+  color: #fff;
+  font-size: 21px;
+  line-height: 32px;
+}
+.contact-details-box img {
+  height: 48px;
+  width: 48px;
+  margin-right: 10px;
+}
+
+.footer-1 {
+  padding: 50px 0 30px 0 !important;
+}
+.footer-1 .row {
+  border-bottom: 1px solid #888A8E;
+}
+
+.box-footer-2 h6 {
+  font-size: 14px;
+  line-height: 26px;
+  font-weight: 600;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.box-footer-2 h6:after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 2px;
+  background-color: #AEAFB0;
+  margin-top: 20px;
+}
+.box-footer-2 li {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font-size: 14px;
+  line-height: 24px;
+}
+.box-footer-2 li span {
+  width: 30%;
+  display: inline-block;
+}
+
+.footer-1, .footer-2 {
+  border: none !important;
+}
+
+.enquiry-cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+.enquiry-cart-table th {
+  color: #FFFFFF;
+  background-color: #6b9e69;
+  padding: 0.8em !important;
+}
+
+table .product-image {
+  width: 100px;
+}
+
+.enquiry-product-info {
+  margin: 0 30px;
+  width: 60%;
+}
+
+.enquiry-product {
+  display: flex;
+  align-items: center;
+}
+
+.my-enquiry-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.update-enquiry-cart-button button {
+  text-transform: capitalize;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.enquiry-product-quantity button {
+  margin: 0 !important;
+}
+
+.enquiry-form button {
+  text-transform: capitalize;
+  border-radius: 5px;
+  color: #fff;
 }
 
 #ProductVariationTable h4 {
@@ -440,55 +510,33 @@ td:first-child, th:first-child {
   padding: 5px 35px;
 }
 
-.contact-details-box {
-  display: flex;
-  align-items: center;
+#ProductVariationTable td:first-child, #ProductVariationTable th:first-child {
+  padding-left: 1em;
 }
-.contact-details-box p {
+
+#enquiry-button, .add_to_enquiry_custom, .enquiry-button {
+  color: black;
+  background-color: #6b9e69;
+  padding: 10px 50px;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  -webkit-box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  cursor: pointer;
+}
+
+.enquiry-button-single {
+  color: #FFF;
+  display: inline-block !important;
+  background-color: #6b9e69;
+  border: none;
+  font-size: 16px;
+  height: 40.39px !important;
+  transform: translateY(-1px);
+  margin-left: 10px;
+}
+.enquiry-button-single button {
+  margin-right: 0px;
   margin-bottom: 0px;
-  color: #fff;
-  font-size: 21px;
-  line-height: 32px;
-}
-.contact-details-box img {
-  height: 48px;
-  width: 48px;
-  margin-right: 10px;
-}
-
-.footer-1 {
-  padding: 50px 0 30px 0 !important;
-}
-.footer-1 .row {
-  border-bottom: 1px solid #888A8E;
-}
-
-.box-footer-2 h6 {
-  font-size: 14px;
-  line-height: 26px;
-  font-weight: 600;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-}
-.box-footer-2 h6:after {
-  content: "";
-  display: block;
-  width: 50px;
-  height: 2px;
-  background-color: #AEAFB0;
-  margin-top: 20px;
-}
-.box-footer-2 li {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  font-size: 14px;
-  line-height: 24px;
-}
-.box-footer-2 li span {
-  width: 30%;
-  display: inline-block;
-}
-
-.footer-1, .footer-2 {
-  border: none !important;
 }
