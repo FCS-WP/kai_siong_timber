@@ -3,6 +3,9 @@ package-lock.json
 
 node_modules
 
+src/wp-content/themes/*/*/dist
+
+
 # Ignore large folder and folder cache
 src/wp-content/*
 
