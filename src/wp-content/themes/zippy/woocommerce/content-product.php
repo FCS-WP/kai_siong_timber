@@ -68,7 +68,7 @@ if ( $out_of_stock ) $classes[] = 'out-of-stock';
 		<div class="box-text <?php echo flatsome_product_box_text_class(); ?>">
 			<?php
 				do_action( 'woocommerce_before_shop_loop_item_title' );
-
+                echo '<div class="product-info">';
 				echo '<div class="title-wrapper">';
 				do_action( 'woocommerce_shop_loop_item_title' );
 				echo '</div>';
@@ -77,7 +77,7 @@ if ( $out_of_stock ) $classes[] = 'out-of-stock';
 				echo '<div class="price-wrapper">';
 				do_action( 'woocommerce_after_shop_loop_item_title' );
 				echo '</div>';
-
+				echo '</div>';
 				do_action( 'flatsome_product_box_after' );
 
 			?>
