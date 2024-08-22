@@ -62,6 +62,7 @@ function product_variation_table_shortcode($atts)
       </tbody>
     </table>
   </div>
+  <div id="success-message" style="display:none;">Items added successfully!</div>
   <div class="enquiry-button-custom">
     <button id="enquiry-button">Enquiry</button>
   </div>
@@ -116,7 +117,11 @@ function product_variation_table_shortcode($atts)
               products: productsToAdd
             },
             success: function(response) {
-              // location.reload();
+              var successMessage = document.getElementById('success-message');
+              successMessage.style.display = 'block';
+              setTimeout(function() {
+                location.reload();
+              }, 1500);
             },
             error: function(error) {
               alert('Failed to process items.');
