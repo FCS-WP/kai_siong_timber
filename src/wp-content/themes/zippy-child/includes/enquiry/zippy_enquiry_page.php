@@ -2,7 +2,7 @@
 function display_enquiry_cart_page()
 {
    if (!is_admin()){ 
-	if (isset(WC()->session)) {
+    if (isset(WC()->session)) {
         if (!is_admin() && !WC()->session->has_session()) {
             WC()->session->set_customer_session_cookie(true);
         }

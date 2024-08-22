@@ -37,7 +37,6 @@ function product_variation_table_shortcode($atts)
         foreach ($variations as $variation_id) {
           $variation_obj = new WC_Product_Variation($variation_id);
           $attributes_price = $variation_obj->get_price();
-
         ?>
           <tr>
             <td><?php echo $variation_obj->get_sku(); ?></td>
@@ -56,7 +55,6 @@ function product_variation_table_shortcode($atts)
             </td>
           </tr>
         <?php
-
         }
         ?>
       </tbody>
@@ -68,38 +66,15 @@ function product_variation_table_shortcode($atts)
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      //       document.querySelectorAll('.quantity').forEach(function(quantityWrapper) {
-      //           var input = quantityWrapper.querySelector('input.qty');
-      //           var minusButton = quantityWrapper.querySelector('.minus');
-      //           var plusButton = quantityWrapper.querySelector('.plus');
-
-      //           minusButton.addEventListener('click', function() {
-      //               var currentValue = parseInt(input.value, 10);
-      //               if (!isNaN(currentValue) && currentValue > 0) {
-      //                   input.value = currentValue - 1;
-      //               }
-      //           });
-
-      //           plusButton.addEventListener('click', function() {
-      //               var currentValue = parseInt(input.value, 10);
-      //               var max = parseInt(input.getAttribute('max'), 10);
-      //               if (!isNaN(currentValue) && (isNaN(max) || currentValue < max)) {
-      //                   input.value = currentValue ;
-      //               }
-      //           });
-      //       });
-
       document.getElementById('enquiry-button').addEventListener('click', function() {
         var quantities = document.querySelectorAll('.quantity input.qty');
         var productsToAdd = {
-          cart: [],
           enquiry: []
         };
 
         quantities.forEach(function(input) {
           var quantity = parseInt(input.value, 10);
           var variationId = input.getAttribute('data-variation-id');
-          var price = input.getAttribute('data-price');
           if (quantity > 0) {
             productsToAdd.enquiry.push({
               variationId: variationId,
@@ -108,7 +83,7 @@ function product_variation_table_shortcode($atts)
           }
         });
 
-        if (productsToAdd.cart.length > 0 || productsToAdd.enquiry.length > 0) {
+        if (productsToAdd.enquiry.length > 0) {
           jQuery.ajax({
             url: wc_add_to_cart_params.ajax_url,
             type: 'POST',
@@ -148,22 +123,11 @@ function add_multiple_to_cart_or_enquiry()
   if (isset($_POST['products']) && is_array($_POST['products'])) {
     $products = $_POST['products'];
 
-
     // Early initialize customer session
     if (isset(WC()->session) && ! WC()->session->has_session()) {
       WC()->session->set_customer_session_cookie(true);
     }
-    // Process cart products
-    if (!empty($products['cart'])) {
-      foreach ($products['cart'] as $product) {
-        $variation_id = intval($product['variationId']);
-        $quantity = intval($product['quantity']);
-        if ($variation_id > 0 && $quantity > 0) {
-          WC()->cart->add_to_cart($variation_id, $quantity);
-        }
-      }
-    }
-    // Process enquiry products
+    // Process enquiry products (both priced and non-priced products)
     if (!empty($products['enquiry'])) {
       foreach ($products['enquiry'] as $product) {
         $variation_id = intval($product['variationId']);
@@ -179,13 +143,11 @@ function add_multiple_to_cart_or_enquiry()
               'quantity' => $quantity
             );
           }
-
           WC()->session->set('enquiry_cart', $enquiry_cart);
         }
       }
     }
     $enquiry_cart = WC()->session->get('enquiry_cart', array());
-    // var_dump($enquiry_cart);
     wp_send_json_success('Products processed successfully.');
   } else {
     wp_send_json_error('No products to process.');
