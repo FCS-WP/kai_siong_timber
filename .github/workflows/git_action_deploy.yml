@@ -3,13 +3,20 @@ name: FCS Wordpress Deploy Via SFTP
 run-name: FCS Wordpress Deploy To Server 🚀
 on:
   push:
+<<<<<<< HEAD
     tags:
       - production-*
+=======
+    branches:
+      - production
+      - master
+>>>>>>> master
 
 jobs:
   send_deploying:
     name: send telegram message when Deploying
     runs-on: ubuntu-latest
+<<<<<<< HEAD
     env:
       super_secret: ${{ secrets.FPT_DIR_PATH }}
     steps:
@@ -18,6 +25,9 @@ jobs:
         id: check_secret
         run: echo "FPT_DIR_PATH=${{ secrets.FPT_DIR_PATH }}"
 
+=======
+    steps:
+>>>>>>> master
       - name: send telegram message when Deploying
         uses: appleboy/telegram-action@master
         with:
@@ -87,3 +97,8 @@ jobs:
             Project name 💻: ${{ github.repository }}
             Project link 🔎: https://github.com/${{ github.repository }}
             See new changes: https:/${{secrets.FPT_DIR_PATH}}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> master
