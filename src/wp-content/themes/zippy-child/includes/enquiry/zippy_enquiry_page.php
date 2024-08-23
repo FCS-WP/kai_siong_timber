@@ -68,9 +68,9 @@ function display_enquiry_cart_page()
                                 </td>
                                 <td>
                                     <div class="enquiry-product-quantity quantity w-100 d-flex justify-content-center">
-                                        <button class="quantity-button minus" type="button" data-item-key="<?php echo $key; ?>">-</button>
-                                        <input type="number" class="input-text qty text" name="quantity[<?php echo $key; ?>]" value="<?php echo $quantity; ?>" min="1">
-                                        <button class="quantity-button plus" type="button" data-item-key="<?php echo $key; ?>">+</button>
+                                    <input type="button" value="-" class="qty_button minus" data-item-key="<?php echo $key; ?>">
+                                    <input type="number" step="1" min="1"  name="quantity[<?php echo $key; ?>]" value="<?php echo $quantity; ?>" title="Qty" class="input-text qty text" size="4" />
+                                    <input type="button" value="+" class="qty_button plus" data-item-key="<?php echo $key; ?>">
                                     </div>
                                 </td>
                                 <td>
@@ -111,16 +111,6 @@ function display_enquiry_cart_page()
             </form>
         </div>
 <?php
-        if (isset($_POST['update_enquiry_cart']) && $_POST['update_enquiry_cart'] == 1) {
-            foreach ($_POST['quantity'] as $key => $quantity) {
-                if ($quantity > 0) {
-                    $enquiry_cart[$key]['quantity'] = intval($quantity);
-                } else {
-                    unset($enquiry_cart[$key]);
-                }
-            }
-            WC()->session->set('enquiry_cart', $enquiry_cart);
-        }
 
         if (isset($_POST['send_enquiry']) && $_POST['send_enquiry'] == 1) {
             handle_enquiry_form_submission($enquiry_cart);
@@ -129,7 +119,25 @@ function display_enquiry_cart_page()
         return ob_get_clean();
     }
 }
-
+function update_enquiry_cart()
+{
+    if (isset($_POST['quantity'])) {
+        $enquiry_cart = WC()->session->get('enquiry_cart', array());
+        foreach ($_POST['quantity'] as $key => $quantity) {
+            if ($quantity > 0) {
+                $enquiry_cart[$key]['quantity'] = intval($quantity);
+            } else {
+                unset($enquiry_cart[$key]);
+            }
+        }
+        WC()->session->set('enquiry_cart', $enquiry_cart);
+        wp_send_json_success();
+    } else {
+        wp_send_json_error(array('message' => 'No quantity data found.'));
+    }
+}
+add_action('wp_ajax_update_enquiry_cart', 'update_enquiry_cart');
+add_action('wp_ajax_nopriv_update_enquiry_cart', 'update_enquiry_cart');
 function remove_enquiry_item()
 {
 
