@@ -53,3 +53,4 @@ function display_enquiry_cart()
 
 add_shortcode('display_enquiry_cart', 'display_enquiry_cart');
 //
+?>
