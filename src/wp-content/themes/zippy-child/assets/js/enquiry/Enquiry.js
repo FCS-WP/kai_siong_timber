@@ -2,9 +2,9 @@ export class Enquiry {
   constructor() {
     $(document).ready(() => {
       this.initEnquirySingleButton();
-      this.initQuantityButton();
       this.initRemoveButton();
       this.initAddMutipleButton();
+      this.initUpdateEnquiryForm();
     });
   }
 
@@ -46,22 +46,6 @@ export class Enquiry {
     });
   }
 
-  initQuantityButton() {
-    $(document).on("click", ".quantity-button", function() {
-      const button = $(this);
-      const itemKey = button.attr("data-item-key");
-      const $inputField = $(`input[name="quantity[${itemKey}]"]`);
-      const currentValue = parseInt($inputField.val(), 10);
-
-      if (button.hasClass("minus")) {
-        if (currentValue > 1) {
-          $inputField.val(currentValue - 1);
-        }
-      } else if (button.hasClass("plus")) {
-        $inputField.val(currentValue + 1);
-      }
-    });
-  }
 
   initRemoveButton() {
     $(document).on("click", ".remove-enquiry-item", function(e) {
@@ -144,5 +128,27 @@ export class Enquiry {
     } else {
       console.warn('Enquiry button not found.');
     }
+  }
+  initUpdateEnquiryForm() {
+    $(document).on('submit', '#enquiry_cart_form', (e) => {
+      e.preventDefault(); 
+      const formData = $(e.currentTarget).serialize(); 
+  
+      $.ajax({
+        url: wc_add_to_cart_params.ajax_url,
+        type: 'POST',
+        data: formData + '&action=update_enquiry_cart',
+        success: (response) => {
+          if (response.success) {
+            location.reload(); 
+          } else {
+            alert('Failed to update the cart.');
+          }
+        },
+        error: (xhr, status, error) => {
+          console.error('An error occurred:', error);
+        }
+      });
+    });
   }
 }
