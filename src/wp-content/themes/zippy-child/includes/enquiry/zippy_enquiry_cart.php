@@ -64,50 +64,6 @@ function product_variation_table_shortcode($atts)
   <div class="enquiry-button-custom">
     <button id="enquiry-button">Enquiry</button>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('enquiry-button').addEventListener('click', function() {
-        var quantities = document.querySelectorAll('.quantity input.qty');
-        var productsToAdd = {
-          enquiry: []
-        };
-
-        quantities.forEach(function(input) {
-          var quantity = parseInt(input.value, 10);
-          var variationId = input.getAttribute('data-variation-id');
-          if (quantity > 0) {
-            productsToAdd.enquiry.push({
-              variationId: variationId,
-              quantity: quantity
-            });
-          }
-        });
-
-        if (productsToAdd.enquiry.length > 0) {
-          jQuery.ajax({
-            url: wc_add_to_cart_params.ajax_url,
-            type: 'POST',
-            data: {
-              action: 'add_multiple_to_cart_or_enquiry',
-              products: productsToAdd
-            },
-            success: function(response) {
-              var successMessage = document.getElementById('success-message');
-              successMessage.style.display = 'block';
-              setTimeout(function() {
-                location.reload();
-              }, 1500);
-            },
-            error: function(error) {
-              alert('Failed to process items.');
-            }
-          });
-        } else {
-          alert('No products to add.');
-        }
-      });
-    });
-  </script>
 <?php
 
   return ob_get_clean();
@@ -154,7 +110,4 @@ function add_multiple_to_cart_or_enquiry()
   }
 }
 //
-
-
-
 ?>

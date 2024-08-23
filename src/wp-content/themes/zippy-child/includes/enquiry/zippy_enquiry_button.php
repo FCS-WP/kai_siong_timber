@@ -17,43 +17,6 @@ function product_enquiry_button_shortcode($atts)
     <button class="enquiry-single-button" product-id="<?php echo esc_attr($product_id); ?>" data-product-title="<?php echo esc_attr($product_title); ?>">Enquiry</button>
   </div>
   <div id="success-message" style="display:none;">Items added successfully!</div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelector('.enquiry-single-button').addEventListener('click', function() {
-        var productId = this.getAttribute('product-id');
-        var productTitle = this.getAttribute('data-product-title');
-        var quantity = 1; // Default quantity is 1
-        var productsToAdd = {
-          enquiry: [{
-            productId: productId,
-            quantity: quantity
-          }]
-        };
-
-        if (productsToAdd.enquiry.length > 0) {
-          jQuery.ajax({
-            url: wc_add_to_cart_params.ajax_url,
-            type: 'POST',
-            data: {
-              action: 'add_to_enquiry_cart',
-              products: productsToAdd
-            },
-            success: function(response) {
-              var successMessage = document.getElementById('success-message');
-              successMessage.style.display = 'block';
-              location.reload();
-
-            },
-            error: function(error) {
-              alert('Failed to add product to enquiry cart.');
-            }
-          });
-        } else {
-          alert('No product to add.');
-        }
-      });
-    });
-  </script>
 <?php
   return ob_get_clean();
 }
@@ -95,5 +58,4 @@ function add_to_enquiry_cart()
     wp_send_json_error('Invalid request.');
   }
 }
-
 ?>
