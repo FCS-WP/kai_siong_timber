@@ -54,7 +54,7 @@ class WC_Category_Accordion_Widget extends WP_Widget
 
         echo '<div class="accordion-menu">';
         echo '<div class="accordion-item all-categories">';
-        echo '<div class="accordion-header"><a href="' . esc_url($shop_page_url) . '">All Categories</a></div>';
+        // echo '<div class="accordion-header"><a href="' . esc_url($shop_page_url) . '">All Categories</a></div>';
         echo '</div>';
 
         $args = array(
