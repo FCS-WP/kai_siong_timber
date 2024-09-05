@@ -89,8 +89,6 @@ export class Enquiry {
         e.preventDefault();
 
         const quantities = $(".quantity input.qty").val();
-        if (quantities > 0) {
-        }
         const productsToAdd = {
           enquiry: [],
         };
@@ -151,6 +149,4 @@ export class Enquiry {
       });
     });
   }
- 
-
 }
