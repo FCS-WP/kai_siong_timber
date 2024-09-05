@@ -2,27 +2,40 @@
 // Display single product do_shortcode('[product_enquiry_button]')
 function product_enquiry_button_shortcode($atts)
 {
-  global $product;
+    global $product;
 
-  if (!$product || 'simple' !== $product->get_type()) {
-    return 'No product found or not a simple product.';
-  }
+    if (!$product) {
+        return 'No product found.';
+    }
 
-  $product_id = $product->get_id();
-  $product_title = $product->get_name();
+    $product_id = $product->get_id();
+    $product_title = $product->get_name();
 
-  ob_start();
-?>
-  <div class="enquiry-button-single">
-    <button class="enquiry-single-button" product-id="<?php echo esc_attr($product_id); ?>" data-product-title="<?php echo esc_attr($product_title); ?>">Add To Enquiry</button>
-  </div>
-  <div id="success-message" style="display:none;">Items added successfully!</div>
-<?php
-  return ob_get_clean();
+    ob_start();
+    
+    if ('simple' === $product->get_type()) {
+        ?>
+        <div class="enquiry-button-single">
+            <button class="enquiry-single-button" product-id="<?php echo esc_attr($product_id); ?>" data-product-title="<?php echo esc_attr($product_title); ?>">Add To Enquiry</button>
+        </div>
+        <?php
+    } elseif ('variable' === $product->get_type()) {
+        ?>
+        <div class="enquiry-button-custom">
+            <button id="enquiry-button" data-product-id="<?php echo esc_attr($product_id); ?>" data-product-title="<?php echo esc_attr($product_title); ?>">Add To Enquiry</button>
+        </div>
+       
+        <?php
+    } else {
+        return 'Unsupported product type.';
+    }
+
+    return ob_get_clean();
 }
 
-
 add_shortcode('product_enquiry_button', 'product_enquiry_button_shortcode');
+
+
 
 add_action('wp_ajax_add_to_enquiry_cart', 'add_to_enquiry_cart');
 add_action('wp_ajax_nopriv_add_to_enquiry_cart', 'add_to_enquiry_cart');

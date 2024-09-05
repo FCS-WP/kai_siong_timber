@@ -87,19 +87,20 @@ function add_multiple_to_cart_or_enquiry()
     if (!empty($products['enquiry'])) {
       foreach ($products['enquiry'] as $product) {
         $variation_id = intval($product['variationId']);
-        $quantity = intval($product['quantity']);
+        $quantity = intval($product['quantities']);
         if ($variation_id > 0 && $quantity > 0) {
           $enquiry_cart = WC()->session->get('enquiry_cart', array());
           if (isset($enquiry_cart[$variation_id])) {
             $enquiry_cart[$variation_id]['quantity'] += $quantity;
           } else {
-
             $enquiry_cart[$variation_id] = array(
               'variation_id' => $variation_id,
               'quantity' => $quantity
             );
           }
+         
           WC()->session->set('enquiry_cart', $enquiry_cart);
+          
         }
       }
     }
