@@ -14,7 +14,7 @@ function product_enquiry_button_shortcode($atts)
   ob_start();
 ?>
   <div class="enquiry-button-single">
-    <button class="enquiry-single-button" product-id="<?php echo esc_attr($product_id); ?>" data-product-title="<?php echo esc_attr($product_title); ?>">Enquiry</button>
+    <button class="enquiry-single-button" product-id="<?php echo esc_attr($product_id); ?>" data-product-title="<?php echo esc_attr($product_title); ?>">Add To Enquiry</button>
   </div>
   <div id="success-message" style="display:none;">Items added successfully!</div>
 <?php

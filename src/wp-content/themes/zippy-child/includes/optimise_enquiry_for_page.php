@@ -4,7 +4,7 @@ function add_to_enquiry_btn(){
 	if ( function_exists('is_product') && is_product() ) {
         global $product;
         if ( $product && $product->is_type('variable') ) {
-    		echo '<a style="margin-left: 10px" class="add_to_enquiry_custom" href="#ProductVariationTable">Add to Enquiry</a>';        
+          echo do_shortcode('[product_enquiry_button]');     
         } else {
           return;
         }
